@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": false,
+    "outDir": "./dist/",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "noUncheckedIndexedAccess": true,
+    // Linter Checks
+    "noImplicitReturns": true, // https://eslint.org/docs/rules/consistent-return ?
+    "noFallthroughCasesInSwitch": true, // https://eslint.org/docs/rules/no-fallthrough
+    "noUnusedLocals": true, // https://eslint.org/docs/rules/no-unused-vars
+    "noUnusedParameters": true, // https://eslint.org/docs/rules/no-unused-vars#args
+    "allowUnreachableCode": false, // https://eslint.org/docs/rules/no-unreachable ?
+    "allowUnusedLabels": false, // https://eslint.org/docs/rules/no-unused-labels
+    // Base Strict Checks
+    "noImplicitUseStrict": false,
+    "suppressExcessPropertyErrors": false,
+    "suppressImplicitAnyIndexErrors": false,
+    "noStrictGenericChecks": false
+  }
+}
