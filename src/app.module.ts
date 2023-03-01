@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BrandModule } from './modules/brand/brand.module';
 import { ImagesModule } from './modules/images/images.module';
+import { ProductModule } from './modules/product/product.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { UserModule } from './modules/user/user.module';
 import { getTypeormConfig } from '@/config/typeorm/getTypeOrmConfig';
@@ -24,6 +25,7 @@ import { AtGuard } from '@/shared/guards/at.guard';
     RolesModule,
     BrandModule,
     ImagesModule,
+    ProductModule,
   ],
   controllers: [],
   providers: [

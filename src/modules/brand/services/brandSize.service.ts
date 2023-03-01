@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BrandSize } from '@/entities/brandSize.entity';
+import { BrandSize } from '@/entities/brand-size.entity';
 import { CreateBrandSizeDto } from '@/modules/brand/dto/brandSize/create-brand-size.dto';
 import { UpdateBrandSizeDto } from '@/modules/brand/dto/brandSize/update-brand-size.dto';
 import { BrandService } from '@/modules/brand/services/brand.service';

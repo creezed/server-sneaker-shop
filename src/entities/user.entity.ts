@@ -2,7 +2,7 @@ import { Exclude } from 'class-transformer';
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { Base } from '@/entities/base';
 import { Role } from '@/entities/role.entity';
-import { Gender } from '@/modules/user/types/gender.type';
+import { Gender } from '@/shared/types/gender.type';
 
 @Entity('user')
 export class User extends Base {

@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Base } from '@/entities/base';
 import { Brand } from '@/entities/brand.entity';
-import { Gender } from '@/modules/user/types/gender.type';
+import { Gender } from '@/shared/types/gender.type';
 
 @Entity('brand_size')
 export class BrandSize extends Base {

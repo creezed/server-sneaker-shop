@@ -1,5 +1,5 @@
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
-import { Gender } from '@/modules/user/types/gender.type';
+import { Gender } from '@/shared/types/gender.type';
 
 export class UpdateBrandSizeDto {
   @IsOptional()
