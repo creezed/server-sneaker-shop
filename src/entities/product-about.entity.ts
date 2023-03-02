@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { Base } from '@/entities/base';
 import { Product } from '@/entities/product.entity';
 
@@ -16,7 +16,6 @@ export class ProductAbout extends Base {
   @Column({ name: 'material' })
   material: string;
 
-  @OneToOne(() => Product, product => product.about)
-  @JoinColumn()
+  @OneToOne(() => Product, product => product.about, { onDelete: 'CASCADE' })
   product: Product;
 }

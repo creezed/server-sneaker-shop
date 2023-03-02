@@ -13,5 +13,6 @@ import { ImagesService } from './images.service';
   ],
   controllers: [ImagesController],
   providers: [ImagesService],
+  exports: [ImagesService],
 })
 export class ImagesModule {}

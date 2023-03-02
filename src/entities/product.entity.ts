@@ -15,9 +15,6 @@ import { Gender } from '@/shared/types/gender.type';
 
 @Entity('product')
 export class Product extends Base {
-  @Column({ unique: true })
-  article: string;
-
   @Column()
   name: string;
 
@@ -33,10 +30,17 @@ export class Product extends Base {
   @ManyToOne(() => Brand, brand => brand.product)
   brand: Brand;
 
-  @OneToMany(() => ProductImages, images => images.product)
+  @OneToMany(() => ProductImages, images => images.product, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   images: ProductImages[];
 
-  @OneToOne(() => ProductAbout, about => about.product)
+  @OneToOne(() => ProductAbout, about => about.product, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn()
   about: ProductAbout;
 }

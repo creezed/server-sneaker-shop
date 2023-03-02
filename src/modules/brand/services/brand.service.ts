@@ -58,4 +58,14 @@ export class BrandService {
 
     return this.brandRepository.delete(id);
   }
+
+  async validateBrand(id: number) {
+    const brand = await this.findById(id);
+
+    if (!brand) {
+      throw new NotFoundException('Такого бренда не существует');
+    }
+
+    return brand;
+  }
 }

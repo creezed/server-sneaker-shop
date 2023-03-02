@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 export abstract class Base {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('identity')
   id: number;
 
   @CreateDateColumn({ name: 'created_at' })
