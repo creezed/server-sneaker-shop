@@ -11,10 +11,10 @@ import {
   UpdateResult,
 } from 'typeorm';
 import { User } from '@/entities/user.entity';
-import { RolesService } from '@/modules/roles/roles.service';
 import { CreateUserDto } from '@/modules/user/dto/create-user.dto';
 import { UpdateUserDto } from '@/modules/user/dto/update-user.dto';
 import { FavoriteService } from '@/modules/user/services/favorite.service';
+import { RolesService } from '@/modules/user/services/roles.service';
 import { ShoppingCartService } from '@/modules/user/services/shopping-cart.service';
 
 @Injectable()
