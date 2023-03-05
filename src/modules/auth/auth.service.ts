@@ -12,18 +12,16 @@ import { User } from '@/entities/user.entity';
 import { compareHash } from '@/modules/auth/utils/compareHash';
 import { hashPassword } from '@/modules/auth/utils/hashPassword';
 import { CookieService } from '@/modules/cookie/cookie.service';
-import { RolesService } from '@/modules/roles/roles.service';
 import { ITokenService } from '@/modules/token/interfaces/token.interface';
 import { JwtPayloadRefresh } from '@/modules/token/types/jwt-payload.type';
 import { Tokens } from '@/modules/token/types/token.type';
-import { IUserService } from '@/modules/user/interfaces/user.interface';
+import { UserService } from '@/modules/user/services/user.service';
 import { Services } from '@/shared/consts/services.const';
 
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
-    private rolesService: RolesService,
-    @Inject(Services.USER) private readonly userService: IUserService,
+    private readonly userService: UserService,
     @Inject(Services.TOKEN) private readonly tokenService: ITokenService,
     @Inject(Services.COOKIE) private readonly cookieService: CookieService,
   ) {}
@@ -52,18 +50,10 @@ export class AuthService implements IAuthService {
       );
     }
 
-    const baseRole = await this.rolesService.findBaseRole();
-
-    const newUser = await this.userService.create({
+    return await this.userService.create({
       ...dto,
       password: await hashPassword(dto.password),
     });
-
-    newUser.roles = [baseRole];
-
-    await this.userService.save(newUser);
-
-    return newUser;
   }
 
   logout(res: Response) {

@@ -18,5 +18,6 @@ import { ProductImageService } from '@/modules/product/services/productImage.ser
   ],
   controllers: [ProductController, ProductImageController],
   providers: [ProductService, ProductImageService],
+  exports: [ProductService],
 })
 export class ProductModule {}
