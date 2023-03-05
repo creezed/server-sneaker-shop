@@ -2,9 +2,9 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { CurrentUser } from '@/modules/auth/types/auth.type';
 import { JwtPayloadRefresh } from '@/modules/token/types/jwt-payload.type';
 import { Jwt } from '@/shared/consts/jwt.const';
-import {CurrentUser} from "@/modules/auth/types/auth.type";
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, Jwt.REFRESH) {

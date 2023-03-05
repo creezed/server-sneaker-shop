@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@/entities/user.entity';
-import { ITokenService } from '@/modules/token/interfaces/token.interface';
 import {
   JwtPayloadAccess,
   JwtPayloadMail,
@@ -14,7 +13,7 @@ import {
 } from '@/modules/token/types/token.type';
 
 @Injectable()
-export class TokenService implements ITokenService {
+export class TokenService {
   constructor(private readonly jwtService: JwtService) {}
 
   async generateTokenPair(user: User): Promise<Tokens> {

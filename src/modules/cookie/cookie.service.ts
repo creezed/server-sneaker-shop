@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { Cookie } from '@/modules/cookie/consts/cookie.const';
-import { ICookieService } from '@/modules/cookie/interface/cookie.interface';
 
 @Injectable()
-export class CookieService implements ICookieService {
+export class CookieService {
   sendRefreshToken(res: Response, refreshToken: string) {
     res.cookie(Cookie.REFRESH_TOKEN, refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,

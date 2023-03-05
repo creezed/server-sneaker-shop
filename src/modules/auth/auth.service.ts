@@ -1,29 +1,26 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RegistrationUserDto } from './dto/registration-user.dto';
-import { IAuthService } from './interfaces/auth.interface';
 import { User } from '@/entities/user.entity';
 import { compareHash } from '@/modules/auth/utils/compareHash';
 import { hashPassword } from '@/modules/auth/utils/hashPassword';
 import { CookieService } from '@/modules/cookie/cookie.service';
-import { ITokenService } from '@/modules/token/interfaces/token.interface';
+import { TokenService } from '@/modules/token/token.service';
 import { JwtPayloadRefresh } from '@/modules/token/types/jwt-payload.type';
 import { Tokens } from '@/modules/token/types/token.type';
 import { UserService } from '@/modules/user/services/user.service';
-import { Services } from '@/shared/consts/services.const';
 
 @Injectable()
-export class AuthService implements IAuthService {
+export class AuthService {
   constructor(
     private readonly userService: UserService,
-    @Inject(Services.TOKEN) private readonly tokenService: ITokenService,
-    @Inject(Services.COOKIE) private readonly cookieService: CookieService,
+    private readonly tokenService: TokenService,
+    private readonly cookieService: CookieService,
   ) {}
 
   async login(dto: LoginUserDto, res: Response): Promise<User> {

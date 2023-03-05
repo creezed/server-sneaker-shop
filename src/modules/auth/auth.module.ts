@@ -8,16 +8,10 @@ import { CookieModule } from '@/modules/cookie/cookie.module';
 import { MailModule } from '@/modules/mail/mail.module';
 import { TokenModule } from '@/modules/token/token.module';
 import { UserModule } from '@/modules/user/user.module';
-import { Services } from '@/shared/consts/services.const';
 
 @Module({
   imports: [UserModule, MailModule, CookieModule, TokenModule],
   controllers: [AuthController],
-  providers: [
-    RtStrategy,
-    AtStrategy,
-    MailStrategy,
-    { provide: Services.AUTH, useClass: AuthService },
-  ],
+  providers: [RtStrategy, AtStrategy, MailStrategy, AuthService],
 })
 export class AuthModule {}

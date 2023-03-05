@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Response } from 'express';
 import { join } from 'path';
@@ -6,14 +6,13 @@ import { User } from '@/entities/user.entity';
 import { CookieService } from '@/modules/cookie/cookie.service';
 import { getRandomCode } from '@/modules/mail/utils/getRandom';
 import { TokenService } from '@/modules/token/token.service';
-import { Services } from '@/shared/consts/services.const';
 
 @Injectable()
 export class MailService {
   constructor(
     private readonly mailerService: MailerService,
-    @Inject(Services.TOKEN) private readonly tokenService: TokenService,
-    @Inject(Services.COOKIE) private readonly cookieService: CookieService,
+    private readonly tokenService: TokenService,
+    private readonly cookieService: CookieService,
   ) {}
 
   async sendConfirmMail(user: User, res: Response) {

@@ -4,7 +4,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Inject,
   Post,
   Res,
 } from '@nestjs/common';
@@ -12,18 +11,15 @@ import { instanceToPlain } from 'class-transformer';
 import { Response } from 'express';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RegistrationUserDto } from './dto/registration-user.dto';
-import { IAuthService } from './interfaces/auth.interface';
+import { AuthService } from '@/modules/auth/auth.service';
 import { CurrentUser } from '@/modules/auth/types/auth.type';
 import { Routes } from '@/shared/consts/routes.const';
-import { Services } from '@/shared/consts/services.const';
 import { GetCurrentUser } from '@/shared/decorators/get-current-user.decorator';
 import { Public } from '@/shared/decorators/public.decorator';
 
 @Controller(Routes.AUTH)
 export class AuthController {
-  constructor(
-    @Inject(Services.AUTH) private readonly authService: IAuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @HttpCode(HttpStatus.CREATED)
