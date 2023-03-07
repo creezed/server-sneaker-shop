@@ -10,6 +10,7 @@ import { Base } from '@/entities/base';
 import { Brand } from '@/entities/brand.entity';
 import { ProductAbout } from '@/entities/product-about.entity';
 import { ProductImages } from '@/entities/product-images.entity';
+import { ProductInPromotion } from '@/entities/product-in-promotion.entity';
 import { Age } from '@/shared/types/age.type';
 import { Gender } from '@/shared/types/gender.type';
 
@@ -43,4 +44,10 @@ export class Product extends Base {
   })
   @JoinColumn()
   about: ProductAbout;
+
+  @OneToOne(
+    () => ProductInPromotion,
+    productInPromotion => productInPromotion.product,
+  )
+  promotion?: ProductInPromotion;
 }

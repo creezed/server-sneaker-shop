@@ -27,7 +27,7 @@ export class User extends Base {
   @Column({ nullable: true, type: 'enum', enum: Gender })
   gender?: Gender;
 
-  @Column({ nullable: true, type: 'date' })
+  @Column({ nullable: true, type: 'timestamptz' })
   birthday?: Date;
 
   @Column()

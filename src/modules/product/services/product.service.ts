@@ -46,11 +46,18 @@ export class ProductService {
   }
 
   async getAll() {
-    return this.productRepository.find({ relations: { images: true } });
+    return this.productRepository.find({
+      relations: { images: true, promotion: true },
+    });
   }
 
   async getOne(id: number) {
-    return this.findOneById(id, { about: true, images: true, brand: true });
+    return this.findOneById(id, {
+      about: true,
+      images: true,
+      brand: true,
+      promotion: true,
+    });
   }
 
   async findOneById(
