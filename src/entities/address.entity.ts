@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Base } from '@/entities/base';
+import { Order } from '@/entities/order.entity';
 import { User } from '@/entities/user.entity';
 
 @Entity('address')
@@ -18,4 +19,7 @@ export class Address extends Base {
 
   @ManyToOne(() => User, user => user.addresses)
   user: User;
+
+  @OneToMany(() => Order, order => order.userAddress)
+  order: Order[];
 }

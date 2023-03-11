@@ -13,32 +13,25 @@ import {
 import { User } from '@/entities/user.entity';
 import { CreateUserDto } from '@/modules/user/dto/create-user.dto';
 import { UpdateUserDto } from '@/modules/user/dto/update-user.dto';
-import { FavoriteService } from '@/modules/user/services/favorite.service';
 import { RolesService } from '@/modules/user/services/roles.service';
-import { ShoppingCartService } from '@/modules/user/services/shopping-cart.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private readonly shoppingCartService: ShoppingCartService,
-    private readonly favoriteService: FavoriteService,
     private readonly rolesService: RolesService,
     private readonly dataSource: DataSource,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<User> {
+    // Create favorites and shopping cart done on the database side
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
       const baseRole = await this.rolesService.findBaseRole();
-      const shoppingCart = await this.shoppingCartService.create();
-      const favorite = await this.favoriteService.create();
       const user = await this.userRepository.create({
         ...createUserDto,
-        shoppingCart,
-        favorite,
         roles: [baseRole],
       });
       const saveUser = await this.userRepository.save(user);

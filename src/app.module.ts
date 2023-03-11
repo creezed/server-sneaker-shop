@@ -2,10 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AddressModule } from './modules/address/address.module';
 import { BrandModule } from './modules/brand/brand.module';
+import { FavoriteModule } from './modules/favorite/favorite.module';
 import { ImagesModule } from './modules/images/images.module';
+import { OrderModule } from './modules/order/order.module';
 import { ProductModule } from './modules/product/product.module';
 import { PromotionModule } from './modules/promotion/promotion.module';
+import { ShoppingCartModule } from './modules/shopping-cart/shopping-cart.module';
 import { UserModule } from './modules/user/user.module';
 import { getTypeormConfig } from '@/config/typeorm/getTypeOrmConfig';
 import { AuthModule } from '@/modules/auth/auth.module';
@@ -26,6 +30,10 @@ import { AtGuard } from '@/shared/guards/at.guard';
     ImagesModule,
     ProductModule,
     PromotionModule,
+    OrderModule,
+    AddressModule,
+    ShoppingCartModule,
+    FavoriteModule,
   ],
   controllers: [],
   providers: [

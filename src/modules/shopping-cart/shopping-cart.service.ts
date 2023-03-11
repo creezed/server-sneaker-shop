@@ -20,8 +20,7 @@ export class ShoppingCartService {
 
   async create() {
     const cart = this.shoppingCartRepository.create();
-    await this.shoppingCartRepository.save(cart);
-    return cart;
+    return this.shoppingCartRepository.save(cart);
   }
 
   getOneById(

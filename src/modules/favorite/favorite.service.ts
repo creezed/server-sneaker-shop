@@ -21,8 +21,7 @@ export class FavoriteService {
 
   async create() {
     const favorite = this.favoriteRepository.create();
-    await this.favoriteRepository.save(favorite);
-    return favorite;
+    return this.favoriteRepository.save(favorite);
   }
 
   getOneById(

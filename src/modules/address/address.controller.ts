@@ -8,13 +8,13 @@ import {
   Post,
 } from '@nestjs/common';
 import { instanceToPlain } from 'class-transformer';
-import { CreateAddressDto } from '@/modules/user/dto/create-address.dto';
-import { UpdateAddressDto } from '@/modules/user/dto/update-address.dto';
-import { AddressService } from '@/modules/user/services/address.service';
+import { AddressService } from '@/modules/address/address.service';
+import { CreateAddressDto } from '@/modules/address/dto/create-address.dto';
+import { UpdateAddressDto } from '@/modules/address/dto/update-address.dto';
 import { UserService } from '@/modules/user/services/user.service';
 import { GetCurrentUserId } from '@/shared/decorators/get-current-user-id.decorator';
 
-@Controller('user/address')
+@Controller('address')
 export class AddressController {
   constructor(
     private readonly addressService: AddressService,
@@ -31,7 +31,7 @@ export class AddressController {
   }
 
   @Get()
-  getAddressesCurrentUser(@GetCurrentUserId() id: number) {
+  findAllByUserId(@GetCurrentUserId() id: number) {
     return instanceToPlain(this.addressService.findAllByUserId(id));
   }
 

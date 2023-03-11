@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { instanceToPlain } from 'class-transformer';
-import { ShoppingCartService } from '@/modules/user/services/shopping-cart.service';
+import { ShoppingCartService } from '@/modules/shopping-cart/shopping-cart.service';
 import { UserService } from '@/modules/user/services/user.service';
 import { GetCurrentUserId } from '@/shared/decorators/get-current-user-id.decorator';
 
@@ -13,42 +13,42 @@ export class ShoppingCartController {
 
   @Post('add/:productId')
   async addProductInCart(
-    @GetCurrentUserId() id: string,
+    @GetCurrentUserId() userId: string,
     @Param('productId') productId: string,
   ) {
-    const user = await this.userService.validateUser(+id, {
+    const {
+      shoppingCart: { id },
+    } = await this.userService.validateUser(+userId, {
       shoppingCart: true,
     });
 
-    return this.shoppingCartService.addProduct(
-      user.shoppingCart.id,
-      +productId,
-    );
+    return this.shoppingCartService.addProduct(id, +productId);
   }
 
   @Delete('remove/:productId')
   async removeProductInCart(
-    @GetCurrentUserId() id: string,
+    @GetCurrentUserId() userId: string,
     @Param('productId') productId: string,
   ) {
-    const user = await this.userService.validateUser(+id, {
+    const {
+      shoppingCart: { id },
+    } = await this.userService.validateUser(+userId, {
       shoppingCart: true,
     });
 
-    return this.shoppingCartService.removeProduct(
-      user.shoppingCart.id,
-      +productId,
-    );
+    return this.shoppingCartService.removeProduct(id, +productId);
   }
 
   @Get()
-  async getShoppingCart(@GetCurrentUserId() id: string) {
-    const user = await this.userService.validateUser(+id, {
+  async getShoppingCart(@GetCurrentUserId() userId: string) {
+    const {
+      shoppingCart: { id },
+    } = await this.userService.validateUser(+userId, {
       shoppingCart: true,
     });
 
     return instanceToPlain(
-      this.shoppingCartService.getOneById(user.shoppingCart.id, {
+      this.shoppingCartService.getOneById(id, {
         products: {
           images: true,
         },

@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { instanceToPlain } from 'class-transformer';
-import { FavoriteService } from '@/modules/user/services/favorite.service';
+import { FavoriteService } from '@/modules/favorite/favorite.service';
 import { UserService } from '@/modules/user/services/user.service';
 import { GetCurrentUserId } from '@/shared/decorators/get-current-user-id.decorator';
 
