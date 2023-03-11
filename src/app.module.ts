@@ -8,6 +8,7 @@ import { FavoriteModule } from './modules/favorite/favorite.module';
 import { ImagesModule } from './modules/images/images.module';
 import { OrderModule } from './modules/order/order.module';
 import { ProductModule } from './modules/product/product.module';
+import { ProductInventoryModule } from './modules/product-inventory/product-inventory.module';
 import { PromotionModule } from './modules/promotion/promotion.module';
 import { ShoppingCartModule } from './modules/shopping-cart/shopping-cart.module';
 import { UserModule } from './modules/user/user.module';
@@ -34,6 +35,7 @@ import { AtGuard } from '@/shared/guards/at.guard';
     AddressModule,
     ShoppingCartModule,
     FavoriteModule,
+    ProductInventoryModule,
   ],
   controllers: [],
   providers: [

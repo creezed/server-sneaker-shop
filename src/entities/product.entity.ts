@@ -11,6 +11,7 @@ import { Brand } from '@/entities/brand.entity';
 import { ProductAbout } from '@/entities/product-about.entity';
 import { ProductImages } from '@/entities/product-images.entity';
 import { ProductInPromotion } from '@/entities/product-in-promotion.entity';
+import { ProductInventory } from '@/entities/product-inventory.entity';
 import { Age } from '@/shared/types/age.type';
 import { Gender } from '@/shared/types/gender.type';
 
@@ -50,4 +51,7 @@ export class Product extends Base {
     productInPromotion => productInPromotion.product,
   )
   promotion?: ProductInPromotion;
+
+  @OneToMany(() => ProductInventory, inventory => inventory.product)
+  inventory: ProductInventory[];
 }

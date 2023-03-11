@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Base } from '@/entities/base';
 import { Brand } from '@/entities/brand.entity';
+import { ProductInventory } from '@/entities/product-inventory.entity';
 import { Gender } from '@/shared/types/gender.type';
 
 @Entity('brand_size')
@@ -26,4 +27,7 @@ export class BrandSize extends Base {
   @ManyToOne(() => Brand, brand => brand.id)
   @JoinColumn({ name: 'brand_id' })
   brand: Brand;
+
+  @OneToMany(() => ProductInventory, inventory => inventory.size)
+  productInventory: ProductInventory[];
 }

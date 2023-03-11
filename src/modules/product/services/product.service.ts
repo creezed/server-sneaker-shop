@@ -47,7 +47,7 @@ export class ProductService {
 
   async getAll() {
     return this.productRepository.find({
-      relations: { images: true, promotion: true },
+      relations: { images: true, promotion: true, brand: true },
     });
   }
 
@@ -57,6 +57,7 @@ export class ProductService {
       images: true,
       brand: true,
       promotion: true,
+      inventory: { size: true },
     });
   }
 
@@ -107,6 +108,10 @@ export class ProductService {
     product.images.map(image => this.imageService.removeImage(image.small));
 
     return this.productAboutRepository.delete(about.id);
+  }
+
+  async checkProductWithBrandSize(product: Product, sizeId: number) {
+    return product.brand.sizes.some(size => size.id === sizeId);
   }
 
   async validateProduct(
