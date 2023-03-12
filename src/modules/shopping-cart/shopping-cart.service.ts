@@ -9,6 +9,7 @@ import { FindOptionsRelations, Repository } from 'typeorm';
 import { Product } from '@/entities/product.entity';
 import { ShoppingCart } from '@/entities/shopping-cart.entity';
 import { ProductService } from '@/modules/product/services/product.service';
+import { interestCalculation } from '@/shared/utils/interestCalculation/interestCalculation.util';
 
 @Injectable()
 export class ShoppingCartService {
@@ -23,6 +24,10 @@ export class ShoppingCartService {
     return this.shoppingCartRepository.save(cart);
   }
 
+  async save(cart: ShoppingCart) {
+    return this.shoppingCartRepository.save(cart);
+  }
+
   getOneById(
     id: number,
     relations: FindOptionsRelations<ShoppingCart> | undefined = undefined,
@@ -33,10 +38,63 @@ export class ShoppingCartService {
     });
   }
 
-  async addProduct(id: number, productId: number) {
+  async getOneWithPrice(id: number) {
+    let promotionPrice = 0;
+    let price = 0;
+
+    const shoppingCart = await this.validateShoppingCart(id, {
+      products: { promotion: true, images: true, inventory: true },
+    });
+    const products = shoppingCart.products;
+
+    products.forEach(product => {
+      if (product.promotion) {
+        promotionPrice += interestCalculation(
+          product.price,
+          product.promotion.discount,
+        );
+      }
+
+      price += product.price;
+    });
+
+    const total = price - promotionPrice;
+
+    return {
+      shoppingCart,
+      price,
+      promotionPrice,
+      total,
+    };
+  }
+
+  async addProduct(id: number, productId: number, sizeId: number) {
     const cart = await this.validateShoppingCart(id, { products: true });
 
-    const product = await this.productService.validateProduct(productId);
+    const product = await this.productService.validateProduct(productId, {
+      promotion: true,
+      inventory: { size: true },
+      brand: { sizes: true },
+    });
+
+    const productHasSize = await this.productService.checkProductWithBrandSize(
+      product,
+      sizeId,
+    );
+
+    if (!productHasSize) {
+      throw new BadRequestException(
+        'Указанный размер отсутсвует у данного бренда',
+      );
+    }
+
+    const productInInventory = product.inventory.some(
+      productInInventory => productInInventory.size.id === sizeId,
+    );
+
+    if (!productInInventory) {
+      throw new BadRequestException('Товара с таким размером нет в наличии');
+    }
 
     const cartHasProduct = await this.checkProductInCart(cart, product);
 

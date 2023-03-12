@@ -51,4 +51,16 @@ export class AddressService {
 
     return address;
   }
+
+  async validateAddressWithUser(user: User, addressId: number) {
+    const address = await this.validateAddress(addressId);
+    const userHasAddress = user.addresses.some(
+      userAddress => userAddress.id === address.id,
+    );
+    if (!userHasAddress) {
+      throw new NotFoundException('Этого адреса нету у текущего пользователя');
+    }
+
+    return address;
+  }
 }

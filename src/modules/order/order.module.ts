@@ -11,6 +11,8 @@ import { PaymentMethodController } from '@/modules/order/controllers/payment-met
 import { ShippingMethodController } from '@/modules/order/controllers/shipping-method.controller';
 import { PaymentMethodService } from '@/modules/order/services/payment-method.service';
 import { ShippingMethodService } from '@/modules/order/services/shipping-method.service';
+import { ShoppingCartModule } from '@/modules/shopping-cart/shopping-cart.module';
+import { UserModule } from '@/modules/user/user.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { ShippingMethodService } from '@/modules/order/services/shipping-method.
       PaymentMethod,
     ]),
     AddressModule,
+    ShoppingCartModule,
+    UserModule,
   ],
   controllers: [
     OrderController,

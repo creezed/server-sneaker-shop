@@ -1,11 +1,19 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
 import { Address } from '@/entities/address.entity';
 import { Base } from '@/entities/base';
 import { OrderStatus } from '@/entities/order-status.entity';
 import { PaymentMethod } from '@/entities/payment-method.entity';
+import { Product } from '@/entities/product.entity';
 import { ShippingMethod } from '@/entities/shipping-method.entity';
 import { User } from '@/entities/user.entity';
-import { OrderStatus as OrderStatusEnum } from '@/shared/types/order-status.type';
 
 @Entity('order')
 export class Order extends Base {
@@ -24,11 +32,21 @@ export class Order extends Base {
 
   @OneToOne(() => OrderStatus)
   @JoinColumn()
-  status: OrderStatusEnum;
+  status: OrderStatus;
 
   @Column({ name: 'order_comment', type: 'text', nullable: true })
   orderComment: string;
 
-  @Column({ name: 'price', type: 'decimal' })
+  @ManyToMany(() => Product, product => product.orders)
+  @JoinTable({ name: 'order_products' })
+  products: Product[];
+
+  @Column({ type: 'int' })
+  promotionPrice: number;
+
+  @Column({ type: 'int' })
   price: number;
+
+  @Column({ type: 'int' })
+  total: number;
 }

@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { instanceToPlain } from 'class-transformer';
+import { AddProductInCartDto } from '@/modules/shopping-cart/dto/add-product-in-cart.dto';
 import { ShoppingCartService } from '@/modules/shopping-cart/shopping-cart.service';
 import { UserService } from '@/modules/user/services/user.service';
 import { GetCurrentUserId } from '@/shared/decorators/get-current-user-id.decorator';
@@ -15,6 +16,7 @@ export class ShoppingCartController {
   async addProductInCart(
     @GetCurrentUserId() userId: string,
     @Param('productId') productId: string,
+    @Body() addProductInCartDto: AddProductInCartDto,
   ) {
     const {
       shoppingCart: { id },
@@ -22,7 +24,11 @@ export class ShoppingCartController {
       shoppingCart: true,
     });
 
-    return this.shoppingCartService.addProduct(id, +productId);
+    return this.shoppingCartService.addProduct(
+      id,
+      +productId,
+      addProductInCartDto.size,
+    );
   }
 
   @Delete('remove/:productId')
@@ -47,12 +53,6 @@ export class ShoppingCartController {
       shoppingCart: true,
     });
 
-    return instanceToPlain(
-      this.shoppingCartService.getOneById(id, {
-        products: {
-          images: true,
-        },
-      }),
-    );
+    return instanceToPlain(this.shoppingCartService.getOneWithPrice(id));
   }
 }

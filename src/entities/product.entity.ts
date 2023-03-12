@@ -2,12 +2,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
 } from 'typeorm';
 import { Base } from '@/entities/base';
 import { Brand } from '@/entities/brand.entity';
+import { Order } from '@/entities/order.entity';
 import { ProductAbout } from '@/entities/product-about.entity';
 import { ProductImages } from '@/entities/product-images.entity';
 import { ProductInPromotion } from '@/entities/product-in-promotion.entity';
@@ -20,7 +22,7 @@ export class Product extends Base {
   @Column()
   name: string;
 
-  @Column({ type: 'decimal' })
+  @Column({ type: 'int' })
   price: number;
 
   @Column({ type: 'enum', enum: Gender })
@@ -54,4 +56,7 @@ export class Product extends Base {
 
   @OneToMany(() => ProductInventory, inventory => inventory.product)
   inventory: ProductInventory[];
+
+  @ManyToMany(() => Order, order => order.products)
+  orders: Order[];
 }

@@ -23,5 +23,5 @@ export class ProductInPromotion extends Base {
   product: Product;
 
   @Column()
-  discount?: number;
+  discount: number;
 }
