@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsRelations, Repository } from 'typeorm';
 import { Favorite } from '@/entities/favorite.entity';
 import { Product } from '@/entities/product.entity';
-import { ShoppingCart } from '@/entities/shopping-cart.entity';
 import { ProductService } from '@/modules/product/services/product.service';
 
 @Injectable()
@@ -24,30 +23,30 @@ export class FavoriteService {
     return this.favoriteRepository.save(favorite);
   }
 
-  getOneById(
-    id: number,
-    relations: FindOptionsRelations<ShoppingCart> | undefined = undefined,
+  getOneByUserId(
+    userId: number,
+    relations: FindOptionsRelations<Favorite> | undefined = undefined,
   ) {
     return this.favoriteRepository.findOne({
-      where: { id },
+      where: { user: { id: userId } },
       relations,
     });
   }
 
   async addProduct(id: number, productId: number) {
-    const cart = await this.validateFavorite(id, { products: true });
+    const favorite = await this.validateFavorite(id, { products: true });
 
     const product = await this.productService.validateProduct(productId);
 
-    const cartHasProduct = await this.checkProductInFavorite(cart, product);
+    const cartHasProduct = await this.checkProductInFavorite(favorite, product);
 
     if (cartHasProduct) {
       throw new BadRequestException('Товар уже есть в корзине');
     }
 
-    cart.products.push(product);
+    favorite.products.push(product);
 
-    await this.favoriteRepository.save(cart);
+    await this.favoriteRepository.save(favorite);
     return HttpStatus.OK;
   }
 
@@ -71,10 +70,10 @@ export class FavoriteService {
   }
 
   async validateFavorite(
-    id: number,
-    relations: FindOptionsRelations<ShoppingCart> | undefined = undefined,
+    userId: number,
+    relations: FindOptionsRelations<Favorite> | undefined = undefined,
   ) {
-    const favorite = await this.getOneById(id, relations);
+    const favorite = await this.getOneByUserId(userId, relations);
     if (!favorite) {
       throw new NotFoundException('Избранное не удалось найти');
     }

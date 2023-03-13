@@ -11,8 +11,8 @@ export class ProductInPromotion extends Base {
 
   @ManyToOne(() => Promotion, promotion => promotion.products, {
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   })
+  @JoinColumn({ name: 'promotion_id' })
   promotion: Promotion;
 
   @OneToOne(() => Product, product => product.promotion, {

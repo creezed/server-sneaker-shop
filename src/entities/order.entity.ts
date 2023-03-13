@@ -17,21 +17,27 @@ import { User } from '@/entities/user.entity';
 
 @Entity('order')
 export class Order extends Base {
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
-  @ManyToOne(() => Address, address => address.order)
+  @ManyToOne(() => Address, address => address.order, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_address_id' })
   userAddress: Address;
 
-  @ManyToOne(() => PaymentMethod, payment => payment.order)
-  @JoinColumn({ name: 'payment_method' })
+  @ManyToOne(() => PaymentMethod, payment => payment.order, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'payment_method_id' })
   paymentMethod: PaymentMethod;
 
-  @ManyToOne(() => ShippingMethod, payment => payment.order)
-  @JoinColumn({ name: 'shipping_method' })
+  @ManyToOne(() => ShippingMethod, payment => payment.order, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'shipping_method_id' })
   shippingMethod: ShippingMethod;
 
   @OneToOne(() => OrderStatus)
-  @JoinColumn()
+  @JoinColumn({ name: 'status_id' })
   status: OrderStatus;
 
   @Column({ name: 'order_comment', type: 'text', nullable: true })
@@ -41,7 +47,7 @@ export class Order extends Base {
   @JoinTable({ name: 'order_products' })
   products: Product[];
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', name: 'promotion_price' })
   promotionPrice: number;
 
   @Column({ type: 'int' })

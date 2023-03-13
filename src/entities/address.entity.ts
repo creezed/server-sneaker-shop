@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Base } from '@/entities/base';
 import { Order } from '@/entities/order.entity';
 import { User } from '@/entities/user.entity';
@@ -17,7 +17,8 @@ export class Address extends Base {
   @Column()
   zone_name: string;
 
-  @ManyToOne(() => User, user => user.addresses)
+  @ManyToOne(() => User, user => user.addresses, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @OneToMany(() => Order, order => order.userAddress)

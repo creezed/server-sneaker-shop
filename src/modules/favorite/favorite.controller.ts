@@ -37,12 +37,8 @@ export class FavoriteController {
 
   @Get()
   async getFavorite(@GetCurrentUserId() id: string) {
-    const user = await this.userService.validateUser(+id, {
-      favorite: true,
-    });
-
     return instanceToPlain(
-      this.favoriteService.getOneById(user.favorite.id, {
+      this.favoriteService.getOneByUserId(+id, {
         products: {
           images: true,
         },

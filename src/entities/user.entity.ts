@@ -2,7 +2,6 @@ import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -21,10 +20,10 @@ export class User extends Base {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ name: 'first_name' })
   firstName: string;
 
-  @Column()
+  @Column({ name: 'last_name' })
   lastName: string;
 
   @Column({ nullable: true, type: 'enum', enum: Gender })
@@ -37,12 +36,10 @@ export class User extends Base {
   @Exclude()
   password: string;
 
-  @OneToOne(() => ShoppingCart, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-  @JoinColumn({ name: 'shopping_cart_id' })
+  @OneToOne(() => ShoppingCart, { onDelete: 'CASCADE' })
   shoppingCart: ShoppingCart;
 
-  @OneToOne(() => Favorite, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-  @JoinColumn({ name: 'favorite_id' })
+  @OneToOne(() => Favorite, { onDelete: 'CASCADE' })
   favorite: Favorite;
 
   @OneToMany(() => Address, address => address.user)

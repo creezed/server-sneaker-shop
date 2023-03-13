@@ -54,9 +54,10 @@ export class OrderService {
       createOrderDto.paymentMethod,
     );
 
-    const shoppingCartDetail = await this.shoppingCartService.getOneWithPrice(
-      user.shoppingCart.id,
-    );
+    const shoppingCartDetail =
+      await this.shoppingCartService.getOneWithPriceByUserId(
+        user.shoppingCart.id,
+      );
 
     if (shoppingCartDetail.total === 0) {
       throw new BadRequestException('Корзина пуста');

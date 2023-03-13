@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsRelations, Repository } from 'typeorm';
 import { ProductAbout } from '@/entities/product-about.entity';
 import { Product } from '@/entities/product.entity';
-import { BrandService } from '@/modules/brand/services/brand.service';
+import { BrandService } from '@/modules/brand/brand.service';
 import { ImagesService } from '@/modules/images/images.service';
 import { CreateProductDto } from '@/modules/product/dto/create-product.dto';
 import { UpdateProductDto } from '@/modules/product/dto/update-product.dto';

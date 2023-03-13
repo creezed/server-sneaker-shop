@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Base } from '@/entities/base';
 import { Product } from '@/entities/product.entity';
 
@@ -16,6 +16,7 @@ export class ProductImages extends Base {
   extraLarge: string;
 
   @ManyToOne(() => Product, product => product.images, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'product_id' })
   @Exclude()
   product: Product;
 }

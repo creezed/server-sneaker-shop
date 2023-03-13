@@ -1,15 +1,17 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Base } from '@/entities/base';
-import { BrandSize } from '@/entities/brand-size.entity';
 import { Product } from '@/entities/product.entity';
+import { Size } from '@/entities/size.entity';
 
 @Entity('product_inventory')
 export class ProductInventory extends Base {
-  @ManyToOne(() => Product, product => product.inventory)
+  @ManyToOne(() => Product, product => product.inventory, {
+    onDelete: 'CASCADE',
+  })
   product: Product;
 
-  @ManyToOne(() => BrandSize, size => size.productInventory)
-  size: BrandSize;
+  @ManyToOne(() => Size, size => size.productInventory, { onDelete: 'CASCADE' })
+  size: Size;
 
   @Column({ name: 'quantity' })
   quantity: number;

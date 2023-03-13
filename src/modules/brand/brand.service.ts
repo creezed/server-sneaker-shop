@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateBrandDto } from '../dto/brand/create-brand.dto';
-import { UpdateBrandDto } from '../dto/brand/update-brand.dto';
+import { CreateBrandDto } from './dto/create-brand.dto';
+import { UpdateBrandDto } from './dto/update-brand.dto';
 import { Brand } from '@/entities/brand.entity';
 
 @Injectable()

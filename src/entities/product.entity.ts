@@ -13,6 +13,7 @@ import { Order } from '@/entities/order.entity';
 import { ProductAbout } from '@/entities/product-about.entity';
 import { ProductImages } from '@/entities/product-images.entity';
 import { ProductInPromotion } from '@/entities/product-in-promotion.entity';
+import { ProductInShoppingCart } from '@/entities/product-in-shopping-cart.entity';
 import { ProductInventory } from '@/entities/product-inventory.entity';
 import { Age } from '@/shared/types/age.type';
 import { Gender } from '@/shared/types/gender.type';
@@ -31,13 +32,11 @@ export class Product extends Base {
   @Column({ type: 'enum', enum: Age })
   age: Age;
 
-  @ManyToOne(() => Brand, brand => brand.product)
+  @ManyToOne(() => Brand, brand => brand.product, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'brand_id' })
   brand: Brand;
 
-  @OneToMany(() => ProductImages, images => images.product, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @OneToMany(() => ProductImages, images => images.product)
   images: ProductImages[];
 
   @OneToOne(() => ProductAbout, about => about.product, {
@@ -45,7 +44,7 @@ export class Product extends Base {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn()
+  @JoinColumn({ name: 'about_id' })
   about: ProductAbout;
 
   @OneToOne(
@@ -59,4 +58,10 @@ export class Product extends Base {
 
   @ManyToMany(() => Order, order => order.products)
   orders: Order[];
+
+  @OneToMany(
+    () => ProductInShoppingCart,
+    productInShoppingCart => productInShoppingCart.product,
+  )
+  productInShoppingCart: ProductInShoppingCart[];
 }

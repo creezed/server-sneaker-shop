@@ -14,6 +14,10 @@ import { ShoppingCartModule } from './modules/shopping-cart/shopping-cart.module
 import { UserModule } from './modules/user/user.module';
 import { getTypeormConfig } from '@/config/typeorm/getTypeOrmConfig';
 import { AuthModule } from '@/modules/auth/auth.module';
+import { CookieModule } from '@/modules/cookie/cookie.module';
+import { MailModule } from '@/modules/mail/mail.module';
+import { SizeModule } from '@/modules/size/size.module';
+import { TokenModule } from '@/modules/token/token.module';
 import { AtGuard } from '@/shared/guards/at.guard';
 
 @Module({
@@ -25,7 +29,11 @@ import { AtGuard } from '@/shared/guards/at.guard';
     TypeOrmModule.forRootAsync({
       useFactory: getTypeormConfig,
     }),
+    TokenModule,
+    CookieModule,
     AuthModule,
+    MailModule,
+    SizeModule,
     UserModule,
     BrandModule,
     ImagesModule,

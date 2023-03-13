@@ -47,12 +47,8 @@ export class ShoppingCartController {
 
   @Get()
   async getShoppingCart(@GetCurrentUserId() userId: string) {
-    const {
-      shoppingCart: { id },
-    } = await this.userService.validateUser(+userId, {
-      shoppingCart: true,
-    });
-
-    return instanceToPlain(this.shoppingCartService.getOneWithPrice(id));
+    return instanceToPlain(
+      this.shoppingCartService.getOneWithPriceByUserId(+userId),
+    );
   }
 }

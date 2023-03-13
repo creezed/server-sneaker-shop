@@ -30,6 +30,7 @@ export class UserService {
 
     try {
       const baseRole = await this.rolesService.findBaseRole();
+
       const user = await this.userRepository.create({
         ...createUserDto,
         roles: [baseRole],
@@ -38,6 +39,7 @@ export class UserService {
       await queryRunner.commitTransaction();
       return saveUser;
     } catch (e) {
+      console.log(e);
       await queryRunner.rollbackTransaction();
       throw new InternalServerErrorException('Ошибка сервера');
     } finally {

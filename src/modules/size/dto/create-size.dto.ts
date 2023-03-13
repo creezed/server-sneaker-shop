@@ -1,28 +1,28 @@
-import { IsEnum, IsNumber, IsOptional } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 import { Gender } from '@/shared/types/gender.type';
 
-export class UpdateBrandSizeDto {
-  @IsOptional()
+export class CreateSizeDto {
+  @IsNotEmpty()
   @IsNumber()
   ru: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   eu: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   uk: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   us: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   footLength: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsEnum(Gender)
   gender: Gender;
 }

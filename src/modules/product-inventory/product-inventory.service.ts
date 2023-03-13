@@ -17,7 +17,9 @@ export class ProductInventoryService {
   ) {}
 
   getAll() {
-    return this.productInventoryRepository.find({ relations: { size: true } });
+    return this.productInventoryRepository.find({
+      relations: { size: true, product: true },
+    });
   }
 
   findByProductAndSize(productId: number, sizeId: number) {

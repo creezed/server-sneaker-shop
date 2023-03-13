@@ -19,43 +19,44 @@ export class ShoppingCartService {
     private readonly productService: ProductService,
   ) {}
 
-  async create() {
-    const cart = this.shoppingCartRepository.create();
-    return this.shoppingCartRepository.save(cart);
-  }
-
   async save(cart: ShoppingCart) {
     return this.shoppingCartRepository.save(cart);
   }
 
-  getOneById(
-    id: number,
+  getOneByUserId(
+    userId: number,
     relations: FindOptionsRelations<ShoppingCart> | undefined = undefined,
   ) {
     return this.shoppingCartRepository.findOne({
-      where: { id },
+      where: { user: { id: userId } },
       relations,
     });
   }
 
-  async getOneWithPrice(id: number) {
+  async getOneWithPriceByUserId(userId: number) {
     let promotionPrice = 0;
     let price = 0;
 
-    const shoppingCart = await this.validateShoppingCart(id, {
-      products: { promotion: true, images: true, inventory: true },
+    const shoppingCart = await this.validateShoppingCart(userId, {
+      products: {
+        size: true,
+        product: {
+          promotion: true,
+          images: true,
+        },
+      },
     });
-    const products = shoppingCart.products;
+    const shoppingCartProducts = shoppingCart.products;
 
-    products.forEach(product => {
-      if (product.promotion) {
+    shoppingCartProducts.forEach(products => {
+      if (products.product.promotion) {
         promotionPrice += interestCalculation(
-          product.price,
-          product.promotion.discount,
+          products.product.price,
+          products.product.promotion.discount,
         );
       }
 
-      price += product.price;
+      price += products.product.price;
     });
 
     const total = price - promotionPrice;
@@ -69,8 +70,12 @@ export class ShoppingCartService {
   }
 
   async addProduct(id: number, productId: number, sizeId: number) {
-    const cart = await this.validateShoppingCart(id, { products: true });
-
+    // const size = await this.brandSizeService.validateSize(sizeId);
+    //
+    // const cart = await this.validateShoppingCart(id, {
+    //   products: { product: true },
+    // });
+    console.log(id);
     const product = await this.productService.validateProduct(productId, {
       promotion: true,
       inventory: { size: true },
@@ -96,20 +101,15 @@ export class ShoppingCartService {
       throw new BadRequestException('Товара с таким размером нет в наличии');
     }
 
-    const cartHasProduct = await this.checkProductInCart(cart, product);
-
-    if (cartHasProduct) {
-      throw new BadRequestException('Товар уже есть в корзине');
-    }
-
-    cart.products.push(product);
-
-    await this.shoppingCartRepository.save(cart);
     return HttpStatus.OK;
   }
 
   async removeProduct(id: number, productId: number) {
-    const cart = await this.validateShoppingCart(id, { products: true });
+    const cart = await this.validateShoppingCart(id, {
+      products: {
+        product: true,
+      },
+    });
 
     const product = await this.productService.validateProduct(productId);
 
@@ -120,7 +120,7 @@ export class ShoppingCartService {
     }
 
     cart.products = cart.products.filter(
-      productInCart => productInCart.id !== productId,
+      productInCart => productInCart.product.id !== productId,
     );
 
     await this.shoppingCartRepository.save(cart);
@@ -128,10 +128,10 @@ export class ShoppingCartService {
   }
 
   async validateShoppingCart(
-    id: number,
+    userId: number,
     relations: FindOptionsRelations<ShoppingCart> | undefined = undefined,
   ) {
-    const cart = await this.getOneById(id, relations);
+    const cart = await this.getOneByUserId(userId, relations);
     if (!cart) {
       throw new NotFoundException('Корзину не удалось найти');
     }
@@ -140,6 +140,8 @@ export class ShoppingCartService {
   }
 
   async checkProductInCart(cart: ShoppingCart, product: Product) {
-    return cart.products.some(productInCart => productInCart.id === product.id);
+    return cart.products.some(
+      cartProduct => cartProduct.product.id === product.id,
+    );
   }
 }
